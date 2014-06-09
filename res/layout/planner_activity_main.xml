@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical" >
+
+	<LinearLayout
+		android:id="@+id/expenses"
+		android:layout_width="match_parent"
+		android:layout_height="30dp"
+		android:orientation="horizontal" >
+
+		<TextView
+			android:id="@+id/expenseheader"
+			style="?android:attr/listSeparatorTextViewStyle"
+			android:layout_width="0dip"
+			android:layout_height="36dp"
+			android:layout_weight="1"
+			android:background="#FFFFFF"
+			android:text="@string/all_expenses"
+			android:textColor="#000000" />
+
+		<ImageButton
+			android:id="@+id/add_expense"
+			style="@style/buttonStyle"
+			android:layout_width="100dp"
+			android:layout_height="36dp"
+			android:onClick="openExpenseForm"
+			android:src="@drawable/button"
+			android:text="@string/Add_Expense" />
+	</LinearLayout>
+
+	<LinearLayout
+		android:id="@+id/expense_filter"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/expenses"
+		android:orientation="horizontal" >
+
+		<Spinner
+			android:id="@+id/filter_by"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="20dp"
+			android:entries="@array/filter_expenses" />
+	</LinearLayout>
+
+	<ListView
+		android:id="@+id/expenselist"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignParentLeft="true"
+		android:layout_below="@+id/expense_filter"
+		android:dividerHeight="10.0sp" >
+	</ListView>
+
+</RelativeLayout>

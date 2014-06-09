@@ -1,0 +1,241 @@
+<html>
+<head>
+<script src="jquery-2.0.3.min.js"></script>
+<style type="text/css">
+.day {
+   width : 20px;
+   height : 20px;
+   border-radius : 4px;
+   text-align : center;
+   letter-spacing: 2px;
+}
+
+.day:hover{
+  border : 1px solid #99CCFF;
+  color : #99CCFF;
+}
+
+.currentday{
+   background-color : #99CCFF;
+}
+
+.currentday:hover{
+   color : #000000;
+}
+
+
+.inactiveday {
+	color : #CCCCCC;
+}
+
+.topband:hover {
+     color : #99CCFF;
+}
+
+table{
+   width:300px;
+   text-align:center;
+   padding:0px;
+}
+
+td{
+   width:14%;
+   padding:0px;
+}
+</style>
+
+<script>
+
+   var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun','Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']; 
+   var dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+   var today = new Date();
+   var currentDate = today.getDate();
+   var currentMonth = today.getMonth();
+   var year = today.getFullYear(); 
+   var calendar = '';
+   
+function init()
+{
+   displayDays(currentMonth,year,currentDate);
+}
+
+function displayDays(m,y,dateToBePointed)
+{
+	calendar = '';	
+	currentMonth = m;
+    year = y;	
+    var date= new Date();
+	date.setMonth(m);
+	date.setFullYear(y);
+	date.setDate(1);
+ 
+        var numOfDays = getNumofDaysInMonth(m,y);
+		 var header = writeHeader(m,y);
+		 calendar = calendar + header;
+		for (i = 0; i < 7; i ++) 
+		{
+		 calendar = calendar +'<td>'+dayNames[i]+'</td>';
+	    }
+
+        var firstDay = date.getDay();
+		calendar = calendar + '</tr><tr>';
+		if(firstDay > 0)
+		{
+		  var numOfPrevMonthDays = getNumofDaysInMonth(m-1,y);
+		  calendar = calendar + fillPrevMonthDays(firstDay-1,numOfPrevMonthDays	);
+		  //for(i = 0; i< firstDay;i++)
+		  //{
+		    // calendar = calendar + '<td></td>	';
+		  //}
+			//calendar = calendar + '<td class="day" colspan="'+firstDay+'"></td>';
+		}
+		for(i = 0 ; i < numOfDays; i ++)
+		{ 
+          if(firstDay > 6 )
+		  {
+		    firstDay = 0;
+		    calendar = calendar + '</tr><tr>';
+		  }
+		  var day = i + 1;
+		  var cssCls = "day";
+		  if(day == dateToBePointed)
+		  {
+		    cssCls = "day currentday";
+		  }
+		  calendar = calendar +'<td class="'+cssCls+'">' + day + '</td>';
+		  firstDay ++;
+		}
+		var remDays = 7 - firstDay;
+		calendar = calendar + nextMonthDays(remDays);
+		calendar = calendar + '</tr></table>';
+	    writeAsInnerHtml(calendar);
+}
+
+function getNumofDaysInMonth(m,year)
+{
+    var numOfDays = 31;
+    if(m == 3 || m == 5 || m == 8 || m == 10)
+	    {
+          numOfDays = 30;
+        }
+        else if(m == 1)
+        {
+          numOfDays	 = (year % 4 == 0) ? 29 : 28;
+        }
+		return numOfDays;
+}
+
+function fillPrevMonthDays(length,numOfDays)
+{
+	var dayTostart = numOfDays - length;
+   var prevMonthDays = '';
+   for(i = 0; i <= length; i++)
+   {
+      prevMonthDays = prevMonthDays + '<td class="inactiveday" onclick="previousMonth('+(dayTostart+i)+')">'+(dayTostart + i)+'</td>';
+   }
+   return prevMonthDays;
+}
+
+function nextMonthDays(length)
+{
+   var nextMonthDays = '';
+   for(i = 1; i <= length; i++)
+   {
+      nextMonthDays = nextMonthDays + '<td class="inactiveday" onclick="nextMonth('+i+')">'+i+'</td>';
+	}
+   
+   return nextMonthDays;
+}
+
+function writeHeader(m,year)
+{ 
+  var dayAndYear = monthNames[m] + ' ' + year;
+  return '<table> <tr>  <td style="cursor:pointer" onclick="previousMonth(1)"> ‹‹ </td><td style="cursor:pointer" class="topband" onclick="displayMonths('+m+','+year+')" colspan="5">'+dayAndYear+'</td><td style="cursor:pointer" onclick="nextMonth(1)"> ››</td></tr>'	; 
+}
+
+function displayMonths(m,year)
+{
+    var length = monthNames.length;
+	calendar = '<table><tr> <td style="cursor:pointer" onclick="displayMonths(0,'+(year-1)+')"> ‹‹ </td><td colspan="2" style="cursor:pointer" class="topband" onclick="displayYears('+year+')">'+year+'</td> <td style="cursor:pointer" onclick="displayMonths(0,'+(year+1)+')"> ›› </td>';
+    for(i =0; i < length; i++)
+	{
+		if( i % 4 == 0)
+		{
+		 calendar = calendar + '</tr><tr>';
+		}
+		var monthClass = "day";
+		if(i == m)
+		{
+		   monthClass = "day currentday";
+		}
+		calendar = calendar + '<td style="cursor:pointer" class="'+monthClass+'" onclick="displayDays('+i+','+year+','+currentDate+')">'+monthNames[i]+'</td>'; 
+	}
+	calendar = calendar + '</tr></table>';
+	writeAsInnerHtml(calendar);
+
+}
+
+function displayYears(year)
+{
+   var rem = year % 10 ;
+   var startYr = year - rem;
+   var endYr = startYr +9;
+   var period = startYr +'-' + endYr;
+   calendar = '<table> <tr><td style="cursor:pointer" onclick="displayYears('+(startYr-10)+')">‹‹</td><td colspan = "2"> '+period+'</td><td style="cursor:pointer" onclick="displayYears('+(endYr+1)+')">››</td>';
+   for (i = 1;i < 11; i++)
+   {
+        if(i == 1)
+		{ 
+		    calendar = calendar + '</tr><tr><td></td>';
+		}
+        else if(i % 4 ==0)
+		{ 
+		    calendar = calendar + '</tr><tr>';
+		}
+		var yearcls = "day";
+		if(startYr+i-1 == year)
+		{
+		  yearcls ="day currentday";
+		}
+		calendar = calendar + '<td style="cursor:pointer" class="'+yearcls+'" onclick="displayMonths(currentMonth,'+(startYr+i-1)+')">'+(startYr+i-1)+'</td>';
+   }
+   
+    calendar = calendar + '</tr></table>';
+	writeAsInnerHtml(calendar);
+}
+
+function writeAsInnerHtml(calendar)
+{
+   document.getElementById('mycal').innerHTML = calendar;
+}
+
+function previousMonth (date)
+{ 
+	 currentMonth = currentMonth - 1;
+	if(currentMonth < 0)
+	{
+	   currentMonth = 11;
+	   year = year - 1;
+	}
+	
+	displayDays(currentMonth,year,date);
+}
+
+function nextMonth (date)
+{ 
+	 currentMonth = currentMonth + 1;
+	if(currentMonth > 11)
+	{
+	   currentMonth = 0;
+	   year = year + 1;
+	}
+	
+	displayDays(currentMonth,year,date);
+}
+
+</script>
+</head>
+<body onload ="init()">
+<div id="mycal"></div>
+</body>	
+</html>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:background="#FFFFFF"
+	android:orientation="vertical" >
+
+	<LinearLayout
+		android:id="@+id/categoryexpenseheader"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal" >
+
+		<TextView
+			android:id="@+id/newcategory"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="10dp"
+			android:gravity="center|left"
+			android:text="@string/new_category"
+			android:textColor="@color/black"
+			android:textSize="15sp" />
+	</LinearLayout>
+
+	<EditText
+		android:id="@+id/category"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="10dp"
+		android:ems="10"
+		android:hint="@string/category"
+		android:inputType="text"
+		android:textColor="@color/black"
+		android:textCursorDrawable="@null" />
+
+	<Spinner
+		android:id="@+id/categorytype"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="10dp"
+		android:layout_marginTop="5dp"
+		android:dropDownVerticalOffset="-100dp"
+		android:entries="@array/category_array"
+		android:prompt="@string/category_type"
+		android:spinnerMode="dropdown" />
+
+	<LinearLayout
+		android:id="@+id/buttons"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:layout_marginLeft="10dp"
+		android:layout_marginTop="20dp"
+		android:orientation="horizontal"
+		android:weightSum="2" >
+
+		<Button
+			android:id="@+id/save_category"
+			style="?android:attr/buttonStyle"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:gravity="center"
+			android:onClick="saveCategory"
+			android:text="@string/Save" />
+
+		<Button
+			android:id="@+id/cancel"
+			style="?android:attr/buttonStyle"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="10dp"
+			android:layout_weight="1"
+			android:gravity="center"
+			android:onClick="cancelCategory"
+			android:text="@string/Cancel" />
+	</LinearLayout>
+
+</LinearLayout>

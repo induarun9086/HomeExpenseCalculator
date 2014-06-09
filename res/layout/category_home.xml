@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent" >
+
+	<LinearLayout
+		android:id="@+id/categories"
+		android:layout_width="match_parent"
+		android:layout_height="30dp"
+		android:orientation="horizontal" >
+
+		<TextView
+			android:id="@+id/categoryheader"
+			style="?android:attr/listSeparatorTextViewStyle"
+			android:layout_width="0dip"
+			android:layout_height="36dp"
+			android:layout_weight="1"
+			android:background="#FFFFFF"
+			android:text="@string/all_categories"
+			android:textColor="#000000" />
+
+		<Button
+			android:id="@+id/add_category"
+			style="@style/buttonStyle"
+			android:layout_width="100dp"
+			android:layout_height="36dp"
+			android:onClick="openCategoryForm"
+			android:src="@drawable/button"
+			android:text="@string/Add_Category" />
+	</LinearLayout>
+
+	<LinearLayout
+		android:id="@+id/category_filter"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/categories"
+		android:orientation="horizontal" >
+
+		<Spinner
+			android:id="@+id/filter_by"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="20dp"
+			android:entries="@array/category_filter" />
+	</LinearLayout>
+
+	<ListView
+		android:id="@+id/categorylist"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignParentLeft="true"
+		android:layout_below="@+id/category_filter"
+		android:dividerHeight="10.0sp" >
+	</ListView>
+
+</RelativeLayout>
